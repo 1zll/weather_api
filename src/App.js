@@ -8,13 +8,28 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
+      // server.jsにあったURLを直接使用
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=35.6762&longitude=139.6503&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_probability_max&forecast_days=7&timezone=Asia/Tokyo`;
+
       try {
-        const res = await fetch("/api/weather");
+        const res = await fetch(url);
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         const data = await res.json();
-        setForecast(data.forecast);
+
+        // server.jsで行っていた整形ロジックを移植
+        const daily = data.daily;
+        const formattedForecast = daily.time.map((date, i) => ({
+          date,
+          weatherCode: daily.weather_code[i],
+          maxTemp: daily.temperature_2m_max[i],
+          minTemp: daily.temperature_2m_min[i],
+          windSpeed: daily.wind_speed_10m_max[i],
+          rainProbability: daily.precipitation_probability_max[i],
+        }));
+
+        setForecast(formattedForecast);
       } catch (err) {
         console.error("天気データ取得エラー:", err);
       } finally {
@@ -44,9 +59,8 @@ function App() {
       </div>
 
       {/* テーブル全体のコンテナ */}
-      <div className="weather-table-container flex w-full border-t-[1px] border-base-border overflow-hidden">
+      <div className="weather-table-container flex w-full overflow-hidden">
         {/* 左端：項目ヘッダー列 */}
-        {/* 幅を調整 */}
         <div className="header-column min-w-[100px] md:min-w-[140px] flex flex-col shrink-0">
           {/* 日付 */}
           <div
