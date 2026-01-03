@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      // server.jsにあったURLを直接使用
+      // 取得先URLをserver.jsから移植
       const url = `https://api.open-meteo.com/v1/forecast?latitude=35.6762&longitude=139.6503&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_probability_max&forecast_days=7&timezone=Asia/Tokyo`;
 
       try {
@@ -18,7 +18,7 @@ function App() {
         }
         const data = await res.json();
 
-        // server.jsで行っていた整形ロジックを移植
+        // server.jsで行っていた整形処理
         const daily = data.daily;
         const formattedForecast = daily.time.map((date, i) => ({
           date,
@@ -39,7 +39,6 @@ function App() {
     fetchWeather();
   }, []);
 
-  // 左側の項目列の共通スタイル
   const headerCellStyle =
     "flex flex-col justify-center items-center pl-2 md:pl-4 w-full";
   const labelTitleStyle = "text-sm md:text-base font-bold text-base-text";
@@ -47,7 +46,6 @@ function App() {
     "text-xs md:text-base text-base-text font-normal block";
 
   return (
-    // 全体
     <div className="App bg-base-bg h-screen font-sans px-4 md:px-[96px] pt-[64px] md:pt-[56px] overflow-hidden flex flex-col">
       <div className="flex flex-row items-center justify-start mb-8 md:mb-8 gap-2">
         <h1 className="text-xl md:text-title text-base-text font-bold">
@@ -58,11 +56,8 @@ function App() {
         </div>
       </div>
 
-      {/* テーブル全体のコンテナ */}
       <div className="weather-table-container flex w-full overflow-hidden">
-        {/* 左端：項目ヘッダー列 */}
         <div className="header-column min-w-[100px] md:min-w-[140px] flex flex-col shrink-0">
-          {/* 日付 */}
           <div
             className={`${headerCellStyle} border-b-[1px] border-base-border h-[70px] md:h-row-date py-2 md:py-4`}
           >
@@ -70,14 +65,12 @@ function App() {
             <span className={labelUnitStyle}>(曜日)</span>
           </div>
 
-          {/* 天気 */}
           <div
             className={`${headerCellStyle} border-b-[1px] border-base-border h-[100px] md:h-row-icon py-0`}
           >
             <span className={labelTitleStyle}>天気</span>
           </div>
 
-          {/* 最高気温 */}
           <div
             className={`${headerCellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
           >
@@ -85,7 +78,6 @@ function App() {
             <span className={labelUnitStyle}>(℃)</span>
           </div>
 
-          {/* 最低気温 */}
           <div
             className={`${headerCellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
           >
@@ -93,7 +85,6 @@ function App() {
             <span className={labelUnitStyle}>(℃)</span>
           </div>
 
-          {/* 最大風速 */}
           <div
             className={`${headerCellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
           >
@@ -101,14 +92,12 @@ function App() {
             <span className={labelUnitStyle}>(hPa)</span>
           </div>
 
-          {/* 降水確率 */}
           <div className={`${headerCellStyle} h-[60px] md:h-row-item py-2`}>
             <span className={labelTitleStyle}>降水確率</span>
             <span className={labelUnitStyle}>(%)</span>
           </div>
         </div>
 
-        {/* 右側：データ列 */}
         <div className="data-columns flex flex-1 overflow-x-auto">
           {loading ? (
             <div className="p-4 text-base-text text-sm md:text-base">

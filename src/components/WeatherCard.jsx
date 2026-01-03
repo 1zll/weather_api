@@ -2,10 +2,10 @@ import React from "react";
 import "../index.css";
 
 function WeatherCard({ data }) {
-  // GitHub Pages用のベースURLを取得
   const publicUrl = process.env.PUBLIC_URL;
 
   const getWeatherInfo = (code) => {
+    // 全てのパスに publicUrl を付与
     if ([0, 1].includes(code)) return { icon: `${publicUrl}/Icons/Sunny.png` };
     if ([2, 3].includes(code)) return { icon: `${publicUrl}/Icons/Cloudy.png` };
     if ([45, 48].includes(code)) return { icon: `${publicUrl}/Icons/Fog.png` };
@@ -35,14 +35,11 @@ function WeatherCard({ data }) {
 
   const cellStyle =
     "flex items-center justify-center w-full border-base-border";
-
-  // フォントサイズの共通レスポンシブ設定
   const textBaseStyle = "text-sm md:text-base";
   const textDateStyle = "text-base md:text-lg";
 
   return (
     <div className="weather-column flex flex-col items-center min-w-[90px] md:min-w-0 md:flex-1">
-      {/* 1行目: 日付 */}
       <div
         className={`${cellStyle} flex-col border-b-[1px] border-base-border h-[70px] md:h-row-date py-2 md:py-4`}
       >
@@ -54,7 +51,6 @@ function WeatherCard({ data }) {
         </span>
       </div>
 
-      {/* 2行目: 天気アイコン */}
       <div
         className={`${cellStyle} border-b-[1px] border-base-border h-[100px] md:h-row-icon py-4 md:py-8`}
       >
@@ -65,7 +61,6 @@ function WeatherCard({ data }) {
         />
       </div>
 
-      {/* 3行目: 最高気温 */}
       <div
         className={`${cellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
       >
@@ -74,7 +69,6 @@ function WeatherCard({ data }) {
         </span>
       </div>
 
-      {/* 4行目: 最低気温 */}
       <div
         className={`${cellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
       >
@@ -83,7 +77,6 @@ function WeatherCard({ data }) {
         </span>
       </div>
 
-      {/* 5行目: 最大風速 */}
       <div
         className={`${cellStyle} border-b-[1px] border-base-border h-[60px] md:h-row-item py-2`}
       >
@@ -92,7 +85,6 @@ function WeatherCard({ data }) {
         </span>
       </div>
 
-      {/* 6行目: 降水確率 */}
       <div className={`${cellStyle} h-[60px] md:h-row-item py-2`}>
         <span className={`text-base-text ${textBaseStyle}`}>
           {data.rainProbability}
