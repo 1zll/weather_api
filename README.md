@@ -67,6 +67,11 @@
 
 
 
+### アイコン作成
+- **Illustrator** – アイコン作成
+
+
+
 ### デプロイ・ホスティング
 - **GitHub Pages** – 公開URL提供（`npm run deploy` を使用）
 
